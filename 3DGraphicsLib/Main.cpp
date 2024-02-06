@@ -1,3 +1,4 @@
+/*
 #include "Main.h"
 
 // Shader source code
@@ -181,6 +182,7 @@ int main(int argc, char* argv[]) {
     glutMainLoop();
 }
 
+
 void init_window(int width, int height) {
     // Set viewport
     glViewport(0, 0, width, height);
@@ -247,3 +249,4 @@ void init_shaders() {
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
 }
+*/
