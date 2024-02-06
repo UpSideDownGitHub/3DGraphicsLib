@@ -1,0 +1,6 @@
+﻿  Main.cpp
+  RayTracerInOneWeekend.cpp
+C:\Users\reube\Documents\UNI\Graphics 2\3DGraphicsLib\3DGraphicsLib\RayTracerInOneWeekend.cpp(13,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\reube\Documents\UNI\Graphics 2\3DGraphicsLib\3DGraphicsLib\RayTracerInOneWeekend.cpp(14,24): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
+  3DGraphicsLib.vcxproj -> C:\Users\reube\Documents\UNI\Graphics 2\3DGraphicsLib\Debug\3DGraphicsLib.exe
