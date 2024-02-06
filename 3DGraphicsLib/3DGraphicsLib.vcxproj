@@ -76,12 +76,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\reube\Documents\UNI\Graphics 2\3DGraphicsLib\assimp\include;C:\Users\reube\Documents\UNI\Graphics 2\3DGraphicsLib\DevIL\include;C:\Users\reube\Documents\UNI\Graphics 2\3DGraphicsLib\glew\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Reuben Miller\Desktop\Graphics 2\Assignement 2\3DGraphicsLib\glew\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\reube\Documents\UNI\Graphics 2\3DGraphicsLib\assimp\lib\x86;C:\Users\reube\Documents\UNI\Graphics 2\3DGraphicsLib\DevIL\lib\x86\Release;C:\Users\reube\Documents\UNI\Graphics 2\3DGraphicsLib\glew\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\Reuben Miller\Desktop\Graphics 2\Assignement 2\3DGraphicsLib\glew\lib\Release\Win32</AdditionalLibraryDirectories>
       <AdditionalDependencies>glew32.lib;DevIL.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -93,14 +93,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\reube\Documents\UNI\Graphics 2\3DGraphicsLib\glew\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Reuben Miller\Desktop\Graphics 2\Assignement 2\3DGraphicsLib\glew\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\reube\Documents\UNI\Graphics 2\3DGraphicsLib\glew\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\Reuben Miller\Desktop\Graphics 2\Assignement 2\3DGraphicsLib\glew\lib\Release\Win32</AdditionalLibraryDirectories>
       <AdditionalDependencies>glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -110,10 +110,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\Reuben Miller\Desktop\Graphics 2\Assignement 2\3DGraphicsLib\glew\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Users\Reuben Miller\Desktop\Graphics 2\Assignement 2\3DGraphicsLib\glew\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32.dll;</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -124,15 +127,15 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\reube\Documents\UNI\Graphics 2\3DGraphicsLib\glew\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Reuben Miller\Desktop\Graphics 2\Assignement 2\3DGraphicsLib\glew\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\reube\Documents\UNI\Graphics 2\3DGraphicsLib\glew\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\Reuben Miller\Desktop\Graphics 2\Assignement 2\3DGraphicsLib\glew\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32.dll;</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
