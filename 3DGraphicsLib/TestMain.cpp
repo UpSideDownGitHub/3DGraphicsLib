@@ -43,7 +43,7 @@ void main() {
     gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position, 1.0);
     
     FragColor = color;
-    Normal = normal;
+    Normal = vec3(modelMatrix * vec4(normal, 1.0));
     FragPos = vec3(modelMatrix * vec4(position, 1.0));
 }
 )";
@@ -65,12 +65,14 @@ uniform vec3 cameraPosition;
 out vec4 FragColorOut; 
 
 void main() {
+
     // Calculate ambient lighting
     float ambientStrength = 0.3;
     vec3 ambient = ambientStrength * FragColor;
 
-    // Calculate diffuse lighting
     vec3 norm = Normal;
+
+    // Calculate diffuse lighting
     vec3 lightDir = normalize(lightPosition - FragPos);
     float diff = max(dot(norm, lightDir), 0.0);
     vec3 diffuse = diff * lightColor * FragColor;
@@ -187,7 +189,6 @@ void createTorus() {
             nx /= normalLength;
             ny /= normalLength;
             nz /= normalLength;
-
 
             // Add the normal components to the output vector
             normals.push_back(nx);

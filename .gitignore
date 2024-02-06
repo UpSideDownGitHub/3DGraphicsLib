@@ -17,6 +17,8 @@
 mono_crash.*
 
 # Build results
+3DGraphicsLib/[Dd]ebug/
+3DGraphicsLib/Release/
 [Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/
