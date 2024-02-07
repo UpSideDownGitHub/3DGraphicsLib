@@ -25,6 +25,11 @@ float tubeRadius = 0.3f;
 
 GLuint textureID;
 
+float scaleFactor = 1.0f;
+float scaleSpeed = 0.01f;
+float rotationFactor = 1.0f;
+float rotationSpeed = 1.0f;
+
 
 // Shader source code
 const char* vertexShaderSource = R"(
@@ -297,12 +302,10 @@ void render() {
     glBindTexture(GL_TEXTURE_2D, textureID);
     glUseProgram(program);
 
-    // Apply rotation transformation
-    float angle = glm::radians(45.0f); // Rotate by 45 degrees
-    glm::mat4 rotationMatrix = glm::rotate(glm::mat4(1.0f), angle, glm::vec3(1.0f, 0.0f, 0.0f));
+    modelMatrix = glm::mat4(1.0f);
+    modelMatrix *= glm::rotate(modelMatrix, rotationFactor, glm::vec3(1.0f, 0.0f, 0.0f));;
+    modelMatrix *= glm::scale(modelMatrix, glm::vec3(scaleFactor, scaleFactor, scaleFactor));
 
-    // Combine rotation with existing model matrix
-    modelMatrix = rotationMatrix * modelMatrix;
 
     // Set uniform variables
     glUniformMatrix4fv(glGetUniformLocation(program, "projectionMatrix"), 1, GL_FALSE, glm::value_ptr(projectionMatrix));
@@ -326,6 +329,16 @@ void render() {
 
 void update(int value) {
     glutPostRedisplay(); 
+
+    rotationFactor += rotationSpeed;
+    if (rotationFactor >= 360)
+        rotationFactor = 0;
+    std::cout << "Rotation Factor: " << rotationFactor << "\n";
+
+    scaleFactor += scaleSpeed;
+    if ((scaleFactor > 1.1f && scaleSpeed > 0) || (scaleFactor < 0.3f && scaleSpeed < 0))
+        scaleSpeed = -scaleSpeed;
+
     glutTimerFunc(16, update, 0); 
 }
 
