@@ -17,11 +17,14 @@
 # define M_PI 3.14159265358979323846 /* pi */
 
 GLuint vao, vbo, ibo;
-GLuint normalVBO, colorVBO;
+GLuint normalVBO, colorVBO, texCordVBO;
 int numVertices = 50;
 int numTorusSlices = 50;
 float torusRadius = 1.0f;
 float tubeRadius = 0.3f;
+
+GLuint textureID;
+
 
 // Shader source code
 const char* vertexShaderSource = R"(
@@ -30,6 +33,7 @@ const char* vertexShaderSource = R"(
 layout (location = 0) in vec3 position;
 layout (location = 1) in vec3 normal;
 layout (location = 2) in vec3 color;
+layout (location = 3) in vec2 texCord;
 
 uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;        
@@ -38,6 +42,7 @@ uniform mat4 modelMatrix;
 out vec3 FragColor;
 out vec3 Normal;
 out vec3 FragPos; 
+out vec2 TexCord; 
 
 void main() {
     gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position, 1.0);
@@ -45,6 +50,7 @@ void main() {
     FragColor = color;
     Normal = vec3(modelMatrix * vec4(normal, 1.0));
     FragPos = vec3(modelMatrix * vec4(position, 1.0));
+    TexCord = texCord;
 }
 )";
 
@@ -54,28 +60,30 @@ const char* fragmentShaderSource = R"(
 in vec3 FragColor;
 in vec3 Normal; 
 in vec3 FragPos; 
+in vec2 TexCord;
 
 uniform mat4 modelMatrixfrag;
-
 uniform vec3 lightPosition; 
 uniform vec3 lightColor;    
-
+uniform sampler2D textureSampler;
 uniform vec3 cameraPosition;
 
 out vec4 FragColorOut; 
 
 void main() {
 
+    vec4 texColor = texture(textureSampler, TexCord);
+
     // Calculate ambient lighting
     float ambientStrength = 0.3;
-    vec3 ambient = ambientStrength * FragColor;
+    vec3 ambient = ambientStrength * texColor.rgb;
 
     vec3 norm = Normal;
 
     // Calculate diffuse lighting
     vec3 lightDir = normalize(lightPosition - FragPos);
     float diff = max(dot(norm, lightDir), 0.0);
-    vec3 diffuse = diff * lightColor * FragColor;
+    vec3 diffuse = diff * lightColor * texColor.rgb;
 
     // Calculate specular lighting
     float specularStrength = 0.5;
@@ -86,8 +94,8 @@ void main() {
 
     // Final color calculation
     vec3 result = ambient + diffuse + specular;
-    vec3 testResult = result;
-    FragColorOut = vec4(testResult, 1.0);
+    vec3 testResult = texColor.rgb;
+    FragColorOut = vec4(result, texColor.a);
 }
 )";
 GLuint program;
@@ -95,9 +103,15 @@ glm::mat4 projectionMatrix;
 glm::mat4 viewMatrix;
 glm::mat4 modelMatrix(1.0f);
 
-glm::vec3 lightPosition(1.0f, 1.0f, 1.0f);
+glm::vec3 lightPosition(0.0f, 200.0f, 5.0f);
 glm::vec3 lightColor(1.0f, 1.0f, 1.0f);
 glm::vec3 cameraPosition(0.0f, 200.0f, 5.0f);
+
+struct Image {
+    int width;
+    int height;
+    std::vector<unsigned char> data;
+};
 
 void init_shaders() {
 
@@ -154,6 +168,7 @@ void createTorus() {
     std::vector<GLfloat> vertices;
     std::vector<GLfloat> normals;
     std::vector<GLfloat> colors;
+    std::vector<GLfloat> texCords;
     std::vector<GLushort> indices;
 
 
@@ -199,6 +214,10 @@ void createTorus() {
             colors.push_back(1.0f); // Replace with actual color
             colors.push_back(0.5f); // Replace with actual color
             colors.push_back(0.0f); // Replace with actual color
+
+            // UV's
+            texCords.push_back(static_cast<float>(i) / static_cast<float>(numTorusSlices));
+            texCords.push_back(static_cast<float>(j) / static_cast<float>(numVertices));
         }
     }
 
@@ -253,6 +272,15 @@ void createTorus() {
     glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
     glEnableVertexAttribArray(2);
 
+    // Generate and bind VBO for texture coordinates
+    glGenBuffers(1, &texCordVBO);
+    glBindBuffer(GL_ARRAY_BUFFER, texCordVBO);
+    glBufferData(GL_ARRAY_BUFFER, texCords.size() * sizeof(GLfloat), texCords.data(), GL_STATIC_DRAW);
+
+    // Specify attribute pointers for texture coordinates
+    glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
+    glEnableVertexAttribArray(3);
+
     // Generate and bind index buffer
     glGenBuffers(1, &ibo);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
@@ -266,7 +294,7 @@ void render() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
 
-    // Use shader program
+    glBindTexture(GL_TEXTURE_2D, textureID);
     glUseProgram(program);
 
     // Apply rotation transformation
@@ -290,9 +318,8 @@ void render() {
     glDrawElements(GL_TRIANGLES, numTorusSlices * numVertices * 6, GL_UNSIGNED_SHORT, 0);
     glBindVertexArray(0);
 
-
-    // Use shader program
     glUseProgram(0);
+    glBindTexture(GL_TEXTURE_2D, 0);
 
     glutSwapBuffers();
 }
@@ -300,6 +327,47 @@ void render() {
 void update(int value) {
     glutPostRedisplay(); 
     glutTimerFunc(16, update, 0); 
+}
+
+Image loadImageBMP(const char* filename) {
+    std::ifstream file(filename, std::ios::binary);
+
+    if (!file.is_open()) {
+        std::cout << "Failed to open file: " << filename;
+        exit(1);
+    }
+
+    file.seekg(18); // go to width and height
+    int width, height;
+    file.read(reinterpret_cast<char*>(&width), sizeof(int));
+    file.read(reinterpret_cast<char*>(&height), sizeof(int));
+
+    file.seekg(54); // go to main data
+    int dataSize = width * height * 3;
+    std::vector<unsigned char> imageData(dataSize);
+    file.read(reinterpret_cast<char*>(imageData.data()), dataSize);
+
+    file.close();
+
+    Image image;
+    image.width = width;
+    image.height = height;
+    image.data = std::move(imageData);
+
+    return image;
+}
+
+void loadTextures() {
+    Image image = loadImageBMP("two.bmp");
+    glGenTextures(1, &textureID);
+    glBindTexture(GL_TEXTURE_2D, textureID);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image.width, image.height, 0, GL_RGB, GL_UNSIGNED_BYTE, image.data.data());
+    glGenerateMipmap(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 int main(int argc, char** argv) {
@@ -315,6 +383,7 @@ int main(int argc, char** argv) {
 
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
+    loadTextures();
     createTorus();
     init_shaders();
     projectionMatrix = glm::perspective(glm::radians(45.0f), (float)800 / (float)600, 1.0f, 1000.0f);
