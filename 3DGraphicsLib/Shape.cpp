@@ -35,7 +35,7 @@ void Torus::initShape(){
             vertices.push_back(y);
             vertices.push_back(z);
 
-            // Calculate partial derivatives for normal calculation
+            //// Calculate partial derivatives for normal calculation
             float dx_dtheta = -tubeRadius * std::sin(theta) * std::cos(phi);
             float dy_dtheta = -tubeRadius * std::sin(theta) * std::sin(phi);
             float dz_dtheta = tubeRadius * std::cos(theta);
@@ -66,7 +66,8 @@ void Torus::initShape(){
             colors.push_back(0.0f); // Replace with actual color
 
             // UV's
-            texCords.push_back(static_cast<float>(i) / static_cast<float>(numTorusSlices));
+            float scale = 1.0f;
+            texCords.push_back(static_cast<float>(i) / static_cast<float>(numTorusSlices) * scale);
             texCords.push_back(static_cast<float>(j) / static_cast<float>(numVertices));
         }
     }
@@ -91,7 +92,6 @@ void Torus::initShape(){
             indices.push_back(nextIIndex);
         }
     }
-
 
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);

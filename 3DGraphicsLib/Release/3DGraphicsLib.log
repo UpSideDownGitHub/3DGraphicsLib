@@ -1,10 +1,7 @@
-﻿  Main.cpp
-  Shader.cpp
-  Shape.cpp
-  TextureLoader.cpp
+﻿  Shape.cpp
   Generating code
-  146 of 370 functions (39.5%) were compiled, the rest were copied from previous compilation.
-    7 functions were new in current compilation
-    28 functions had inline decision re-evaluated but remain unchanged
+  2 of 369 functions ( 0.5%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   3DGraphicsLib.vcxproj -> C:\Users\Reuben Miller\Desktop\Graphics 2\Assignement 2\3DGraphicsLib\Release\3DGraphicsLib.exe
