@@ -21,8 +21,6 @@ public:
     void initTextures(const char*);
     Image loadImageBMP(const char*);
     void loadTextures();
-    void printData(std::vector<unsigned char>);
-
 private:
 };
 

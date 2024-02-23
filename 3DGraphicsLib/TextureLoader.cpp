@@ -10,10 +10,9 @@ void TextureLoader::initTextures(const char* file) {
 void TextureLoader::loadTextures(){
     Image loadedImage = loadImageBMP(image);
 
-    std::cout << "Width: " << loadedImage.width;
-    std::cout << "Height: " << loadedImage.height;
-    std::cout << "Data: " << loadedImage.data.data() << "\n";
-    //printData(loadedImage.data);
+    //std::cout << "Width: " << loadedImage.width;
+    //std::cout << "Height: " << loadedImage.height;
+    //std::cout << "Data: " << loadedImage.data.data() << "\n";
 
     glGenTextures(1, &textureID);
     glBindTexture(GL_TEXTURE_2D, textureID);
@@ -51,10 +50,4 @@ Image TextureLoader::loadImageBMP(const char* filename) {
     l_image.data = std::move(imageData);
 
     return l_image;
-}
-
-void TextureLoader::printData(std::vector<unsigned char> data) {
-    for (int i = 0; i < data.size(); i++){
-        std::cout << data[i] << ", ";
-    }
 }
