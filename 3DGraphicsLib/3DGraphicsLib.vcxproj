@@ -139,17 +139,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Main.h" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="TestMain.cpp" />
+    <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="TextureLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="basicLightingVS.glsl" />
-    <None Include="basicLightingFS.glsl" />
-    <None Include="lightCubeFS.glsl" />
-    <None Include="lightCubeVS.glsl" />
+    <ClInclude Include="Includes.h" />
+    <ClInclude Include="Shader.h" />
+    <ClInclude Include="TextureLoader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
