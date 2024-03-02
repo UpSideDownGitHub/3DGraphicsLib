@@ -8,6 +8,7 @@ void Torus::render() {
     glBindTexture(GL_TEXTURE_2D, texture.textureID);
 
     glBindVertexArray(vao);
+    //glDrawElements(GL_LINE_STRIP, numTorusSlices * numVertices * 6, GL_UNSIGNED_SHORT, 0);
     glDrawElements(GL_TRIANGLES, numTorusSlices * numVertices * 6, GL_UNSIGNED_SHORT, 0);
     glBindVertexArray(0);
 
@@ -22,8 +23,8 @@ void Torus::initShape(){
     std::vector<GLushort> indices;
 
 
-    for (int i = 0; i < numTorusSlices; ++i) {
-        for (int j = 0; j < numVertices; ++j) {
+    for (int i = 0; i < numTorusSlices + 1; i++) {
+        for (int j = 0; j < numVertices; j++) {
             float theta = 2.0f * M_PI * j / numVertices;
             float phi = 2.0f * M_PI * i / numTorusSlices;
 
@@ -65,10 +66,12 @@ void Torus::initShape(){
             colors.push_back(0.5f); // Replace with actual color
             colors.push_back(0.0f); // Replace with actual color
 
-            // UV's
-            float scale = 1.0f;
-            texCords.push_back(static_cast<float>(i) / static_cast<float>(numTorusSlices) * scale);
-            texCords.push_back(static_cast<float>(j) / static_cast<float>(numVertices));
+            // to fix issue at the end rotate revers it so it goes 0->5->0
+            // rather than 0->9 which causes last section to have entire texture
+            float u = i > numTorusSlices / 2 ? ((float)numTorusSlices - (float)i) / (float)numTorusSlices : (float)i / numTorusSlices;
+            float v = j > numVertices / 2 ? ((float)numVertices - (float)j) / (float)numVertices : (float)j / numVertices;
+            texCords.push_back(u);
+            texCords.push_back(v);
         }
     }
 
@@ -125,7 +128,7 @@ void Torus::initShape(){
     // Generate and bind VBO for texture coordinates
     glGenBuffers(1, &texCordVBO);
     glBindBuffer(GL_ARRAY_BUFFER, texCordVBO);
-    glBufferData(GL_ARRAY_BUFFER, texCords.size() * sizeof(GLfloat), texCords.data(), GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, texCords.size() * sizeof(float), texCords.data(), GL_STATIC_DRAW);
 
     // Specify attribute pointers for texture coordinates
     glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);

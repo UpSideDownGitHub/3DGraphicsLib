@@ -19,8 +19,8 @@ public:
 class Torus : public Shape{
 public:
 	// Variables
-	int numVertices = 50;
-	int numTorusSlices = 50;
+	int numVertices = 10;
+	int numTorusSlices = 10;
 	float torusRadius = 1.0f;
 	float tubeRadius = 0.3f;
 

@@ -60,7 +60,7 @@ out vec4 FragColorOut;
 
 void main() {
 
-    vec4 texColor = texture(textureSampler, TexCord);
+    vec4 texColor = texture(textureSampler, TexCord).rgba;
 
     // Calculate ambient lighting
     float ambientStrength = 0.3;
