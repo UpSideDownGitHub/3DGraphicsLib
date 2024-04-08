@@ -22,6 +22,8 @@ Shader shaders = Shader(&program);
 
 // Torus
 Torus torus = Torus();
+Torus torus2 = Torus();
+Torus torus3 = Torus();
 
 void render() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -43,6 +45,38 @@ void render() {
     glUniform3fv(glGetUniformLocation(program, "cameraPosition"), 1, glm::value_ptr(cameraPosition));
 
     torus.render();
+
+    modelMatrix = glm::mat4(1.0f);
+    modelMatrix *= glm::rotate(modelMatrix, rotationFactor / 2, glm::vec3(0.0f, 1.0f, 0.0f));
+    modelMatrix *= glm::rotate(modelMatrix, rotationFactor / 2, glm::vec3(1.0f, 0.0f, 0.0f));
+    modelMatrix *= glm::scale(modelMatrix, glm::vec3(scaleFactor * 2, scaleFactor * 2, scaleFactor * 2));
+
+    // Set uniform variables
+    glUniformMatrix4fv(glGetUniformLocation(program, "projectionMatrix"), 1, GL_FALSE, glm::value_ptr(projectionMatrix));
+    glUniformMatrix4fv(glGetUniformLocation(program, "viewMatrix"), 1, GL_FALSE, glm::value_ptr(viewMatrix));
+    glUniformMatrix4fv(glGetUniformLocation(program, "modelMatrix"), 1, GL_FALSE, glm::value_ptr(modelMatrix));
+    glUniformMatrix4fv(glGetUniformLocation(program, "modelMatrixfrag"), 1, GL_FALSE, glm::value_ptr(modelMatrix));
+    glUniform3fv(glGetUniformLocation(program, "lightPosition"), 1, glm::value_ptr(lightPosition));
+    glUniform3fv(glGetUniformLocation(program, "lightColor"), 1, glm::value_ptr(lightColor));
+    glUniform3fv(glGetUniformLocation(program, "cameraPosition"), 1, glm::value_ptr(cameraPosition));
+
+    torus2.render();
+
+    modelMatrix = glm::mat4(1.0f);
+    modelMatrix *= glm::rotate(modelMatrix, rotationFactor , glm::vec3(0.0f, 0.0f, 1.0f));
+    modelMatrix *= glm::rotate(modelMatrix, rotationFactor , glm::vec3(1.0f, 0.0f, 0.0f));
+    modelMatrix *= glm::scale(modelMatrix, glm::vec3(scaleFactor / 2, scaleFactor / 2, scaleFactor / 2));
+
+    // Set uniform variables
+    glUniformMatrix4fv(glGetUniformLocation(program, "projectionMatrix"), 1, GL_FALSE, glm::value_ptr(projectionMatrix));
+    glUniformMatrix4fv(glGetUniformLocation(program, "viewMatrix"), 1, GL_FALSE, glm::value_ptr(viewMatrix));
+    glUniformMatrix4fv(glGetUniformLocation(program, "modelMatrix"), 1, GL_FALSE, glm::value_ptr(modelMatrix));
+    glUniformMatrix4fv(glGetUniformLocation(program, "modelMatrixfrag"), 1, GL_FALSE, glm::value_ptr(modelMatrix));
+    glUniform3fv(glGetUniformLocation(program, "lightPosition"), 1, glm::value_ptr(lightPosition));
+    glUniform3fv(glGetUniformLocation(program, "lightColor"), 1, glm::value_ptr(lightColor));
+    glUniform3fv(glGetUniformLocation(program, "cameraPosition"), 1, glm::value_ptr(cameraPosition));
+
+    torus3.render();
 
     glUseProgram(0);
     glutSwapBuffers();
@@ -77,6 +111,11 @@ int main(int argc, char** argv) {
 
     torus.initShape();
     torus.setTexture("two.bmp");
+    torus2.initShape();
+    torus2.setTexture("one.bmp");
+    torus3.initShape();
+    torus3.setTexture("three.bmp");
+
     shaders.initShaders();
     
     projectionMatrix = glm::perspective(glm::radians(45.0f), (float)800 / (float)600, 1.0f, 1000.0f);
