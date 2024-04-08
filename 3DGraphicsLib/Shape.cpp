@@ -36,14 +36,14 @@ void Torus::initShape(){
             vertices.push_back(y);
             vertices.push_back(z);
 
-            //// Calculate partial derivatives for normal calculation
+            // Calculate partial derivatives for normal calculation
             float dx_dtheta = -tubeRadius * std::sin(theta) * std::cos(phi);
             float dy_dtheta = -tubeRadius * std::sin(theta) * std::sin(phi);
             float dz_dtheta = tubeRadius * std::cos(theta);
 
             float dx_dphi = -(torusRadius + tubeRadius * std::cos(theta)) * std::sin(phi);
             float dy_dphi = (torusRadius + tubeRadius * std::cos(theta)) * std::cos(phi);
-            float dz_dphi = 0.0f; // No change in z with respect to phi
+            float dz_dphi = 0.0f;
 
             // Calculate the normal vector using cross product
             float nx = dy_dphi * dz_dtheta - dz_dphi * dy_dtheta;
@@ -62,9 +62,9 @@ void Torus::initShape(){
             normals.push_back(nz);
 
             // Assign colors (assuming per-vertex colors)
-            colors.push_back(1.0f); // Replace with actual color
-            colors.push_back(0.5f); // Replace with actual color
-            colors.push_back(0.0f); // Replace with actual color
+            colors.push_back(1.0f); 
+            colors.push_back(0.5f); 
+            colors.push_back(0.0f); 
 
             // to fix issue at the end rotate revers it so it goes 0->5->0
             // rather than 0->9 which causes last section to have entire texture

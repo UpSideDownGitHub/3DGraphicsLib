@@ -10,10 +10,6 @@ void TextureLoader::initTextures(const char* file) {
 void TextureLoader::loadTextures(){
     Image loadedImage = loadImageBMP(image);
 
-    //std::cout << "Width: " << loadedImage.width;
-    //std::cout << "Height: " << loadedImage.height;
-    //std::cout << "Data: " << loadedImage.data.data() << "\n";
-
     glGenTextures(1, &textureID);
     glBindTexture(GL_TEXTURE_2D, textureID);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);

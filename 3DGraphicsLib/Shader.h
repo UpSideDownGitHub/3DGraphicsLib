@@ -34,7 +34,6 @@ out vec2 TexCord;
 
 void main() {
     gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position, 1.0);
-    
     FragColor = color;
     Normal = vec3(modelMatrix * vec4(normal, 1.0));
     FragPos = vec3(modelMatrix * vec4(position, 1.0));
@@ -74,15 +73,14 @@ void main() {
     vec3 diffuse = diff * lightColor * texColor.rgb;
 
     // Calculate specular lighting
-    float specularStrength = 0.5;
+    float specularStrength = 0.1;
     vec3 viewDir = normalize(cameraPosition - FragPos);
     vec3 reflectDir = reflect(-lightDir, norm);
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), 2);
     vec3 specular = specularStrength * spec * lightColor;
 
     // Final color calculation
     vec3 result = ambient + diffuse + specular;
-    vec3 testResult = texColor.rgb;
     FragColorOut = vec4(result, texColor.a);
 }
 )";

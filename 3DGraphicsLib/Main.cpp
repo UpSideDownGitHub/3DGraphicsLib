@@ -32,7 +32,7 @@ void render() {
     glUseProgram(program);
 
     modelMatrix = glm::mat4(1.0f);
-    modelMatrix *= glm::rotate(modelMatrix, rotationFactor, glm::vec3(1.0f, 0.0f, 0.0f));;
+    modelMatrix *= glm::rotate(modelMatrix, rotationFactor, glm::vec3(1.0f, 0.0f, 0.0f));
     modelMatrix *= glm::scale(modelMatrix, glm::vec3(scaleFactor, scaleFactor, scaleFactor));
 
     // Set uniform variables

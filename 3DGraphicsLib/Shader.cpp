@@ -15,9 +15,7 @@ void Shader::initShaders() {
     GLint success;
     glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
     if (!success) {
-        char infoLog[512];
-        glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-        std::cerr << "Error: Vertex shader compilation failed: " << infoLog << std::endl;
+        std::cerr << "Error: Vertex shader compilation failed";
         exit(1);
     }
 
@@ -29,9 +27,7 @@ void Shader::initShaders() {
     // Check for fragment shader compilation errors
     glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
     if (!success) {
-        char infoLog[512];
-        glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-        std::cerr << "Error: Fragment shader compilation failed: " << infoLog << std::endl;
+        std::cerr << "Error: Fragment shader compilation failed";
         exit(1);
     }
 
@@ -44,13 +40,11 @@ void Shader::initShaders() {
     // Check for program linking errors
     glGetProgramiv(*program, GL_LINK_STATUS, &success);
     if (!success) {
-        char infoLog[512];
-        glGetProgramInfoLog(*program, 512, NULL, infoLog);
-        std::cerr << "Error: Program linking failed: " << infoLog << std::endl;
+        std::cerr << "Error: Program linking failed";
         exit(1);
     }
 
-    // Delete shaders as they are now linked into the program
+    // Delete shaders as they are now linked
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
 }
