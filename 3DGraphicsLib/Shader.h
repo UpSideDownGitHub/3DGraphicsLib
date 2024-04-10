@@ -32,6 +32,9 @@ out vec3 Normal;
 out vec3 FragPos; 
 out vec2 TexCord; 
 
+// main shader function that  will tell the vertex where to be positions in the world
+// as well as pass the rest of the data to the fragment shader so that the correct
+// color can be applied
 void main() {
     gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position, 1.0);
     FragColor = color;
@@ -57,6 +60,8 @@ uniform vec3 cameraPosition;
 
 out vec4 FragColorOut; 
 
+// main function of the fragment shader that will return the final
+// color of the fragment.
 void main() {
 
     vec4 texColor = texture(textureSampler, TexCord).rgba;

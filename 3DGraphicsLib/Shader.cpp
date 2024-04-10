@@ -1,9 +1,15 @@
 #include "Shader.h"
 
+/*
+    Constructor of the shader, will set the program this shader is to use
+*/
 Shader::Shader(GLuint *program){ 
     this->program = program;
 }
 
+/*
+    this will create both the vertex shader, as well as the fragement shaders, from the shader source.
+*/
 void Shader::initShaders() {
 
     // Create and compile vertex shader

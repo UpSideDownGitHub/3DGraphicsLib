@@ -7,7 +7,6 @@ public:
 	// variables
 	GLuint vao, vbo, ibo;
 	GLuint normalVBO, colorVBO, texCordVBO;
-
 	TextureLoader texture = TextureLoader();
 
 	// functions

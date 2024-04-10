@@ -1,6 +1,12 @@
 #pragma once
 #include "Includes.h"
 
+/*
+    struct to hold the data concerning an image
+        - width
+        - height
+        - data
+*/
 struct Image {
     int width;
     int height;

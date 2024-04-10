@@ -1,20 +1,38 @@
 #include "Shape.h"
 
+/*
+    Sets the texture of the current shape to the received texture
+*/
 void Shape::setTexture(const char* fileName) {
     texture.initTextures(fileName);
 }
 
+/*
+    will render the torus to the screen
+*/
 void Torus::render() {
+    // apply the giventexture
     glBindTexture(GL_TEXTURE_2D, texture.textureID);
 
+    // draw theshape to the screen
     glBindVertexArray(vao);
-    //glDrawElements(GL_LINE_STRIP, numTorusSlices * numVertices * 6, GL_UNSIGNED_SHORT, 0);
     glDrawElements(GL_TRIANGLES, numTorusSlices * numVertices * 6, GL_UNSIGNED_SHORT, 0);
     glBindVertexArray(0);
 
+    // unbind the texture
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
+/*
+    this function will handle intilising the torus this involves generating the:
+        - Verts
+        - Normals
+        - Colors
+        - UV's
+        - Indicies
+    as well as this this function also creates all of the buffers needed to draw the shape to
+    the screen
+*/
 void Torus::initShape(){
     std::vector<GLfloat> vertices;
     std::vector<GLfloat> normals;
@@ -22,16 +40,18 @@ void Torus::initShape(){
     std::vector<GLfloat> texCords;
     std::vector<GLushort> indices;
 
-
+    // loop through all of the slices
     for (int i = 0; i < numTorusSlices + 1; i++) {
         for (int j = 0; j < numVertices; j++) {
+            // find the direction for x/y in z
+            // as well as x/y
             float theta = 2.0f * M_PI * j / numVertices;
             float phi = 2.0f * M_PI * i / numTorusSlices;
-
+            // calcualte the x, y, z positions for the current points
             float x = (torusRadius + tubeRadius * std::cos(theta)) * std::cos(phi);
             float y = (torusRadius + tubeRadius * std::cos(theta)) * std::sin(phi);
             float z = tubeRadius * std::sin(theta);
-
+            // add the points to the list of verts
             vertices.push_back(x);
             vertices.push_back(y);
             vertices.push_back(z);
@@ -40,22 +60,18 @@ void Torus::initShape(){
             float dx_dtheta = -tubeRadius * std::sin(theta) * std::cos(phi);
             float dy_dtheta = -tubeRadius * std::sin(theta) * std::sin(phi);
             float dz_dtheta = tubeRadius * std::cos(theta);
-
             float dx_dphi = -(torusRadius + tubeRadius * std::cos(theta)) * std::sin(phi);
             float dy_dphi = (torusRadius + tubeRadius * std::cos(theta)) * std::cos(phi);
             float dz_dphi = 0.0f;
-
             // Calculate the normal vector using cross product
             float nx = dy_dphi * dz_dtheta - dz_dphi * dy_dtheta;
             float ny = dz_dphi * dx_dtheta - dx_dphi * dz_dtheta;
             float nz = dx_dphi * dy_dtheta - dy_dphi * dx_dtheta;
-
             // Normalize the normal vector
             float normalLength = std::sqrt(nx * nx + ny * ny + nz * nz);
             nx /= normalLength;
             ny /= normalLength;
             nz /= normalLength;
-
             // Add the normal components to the output vector
             normals.push_back(nx);
             normals.push_back(ny);
@@ -78,27 +94,29 @@ void Torus::initShape(){
     // Generate indices for rendering
     for (int i = 0; i < numTorusSlices; ++i) {
         for (int j = 0; j < numVertices; ++j) {
+            // calcualte direct next values
             int nextJ = (j + 1) % numVertices;
             int nextI = (i + 1) % numTorusSlices;
-
+            // calculate indexes
             int currentIndex = i * numVertices + j;
             int nextIndex = i * numVertices + nextJ;
             int nextIIndex = nextI * numVertices + j;
             int nextINextJIndex = nextI * numVertices + nextJ;
-
+            // add to indices list
             indices.push_back(currentIndex);
             indices.push_back(nextIndex);
             indices.push_back(nextIIndex);
-
             indices.push_back(nextIndex);
             indices.push_back(nextINextJIndex);
             indices.push_back(nextIIndex);
         }
     }
 
+    // generate the Vertex Aray Object
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
 
+    // Generate the vertex buffer object
     glGenBuffers(1, &vbo);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(GLfloat), vertices.data(), GL_STATIC_DRAW);
