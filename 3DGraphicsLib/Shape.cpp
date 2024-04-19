@@ -7,6 +7,17 @@ void Shape::setTexture(const char* fileName) {
     texture.initTextures(fileName);
 }
 
+
+/*
+    constructor for the torus
+*/
+Torus::Torus(int verts, int slices, float torusRad, float tubeRad)
+{
+    this->numVertices = verts;
+    this->numTorusSlices = slices;
+    this->torusRadius = torusRad;
+    this->tubeRadius = tubeRad;
+}
 /*
     will render the torus to the screen
 */

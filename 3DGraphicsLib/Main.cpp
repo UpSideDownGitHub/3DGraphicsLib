@@ -24,9 +24,9 @@ glm::vec3 cameraPosition(0.0f, 200.0f, 5.0f);
 Shader shaders = Shader(&program);
 
 // Torus
-Torus torus = Torus();
-Torus torus2 = Torus();
-Torus torus3 = Torus();
+Torus torus = Torus(10, 10, 1.0f, 0.5f);
+Torus torus2 = Torus(26, 26, 1.0f, 0.3f);
+Torus torus3 = Torus(6, 6, 1.0f, 0.3f);
 
 /*
 Main render function that will handle the rendering of all of the components
@@ -42,7 +42,8 @@ void render() {
     // apply transformations -> in order (RESET, ROTATE, SCALE)
     modelMatrix = glm::mat4(1.0f);
     modelMatrix *= glm::rotate(modelMatrix, rotationFactor, glm::vec3(1.0f, 0.0f, 0.0f));
-    modelMatrix *= glm::scale(modelMatrix, glm::vec3(scaleFactor, scaleFactor, scaleFactor));
+    float scale = scaleFactor / 1.75f;
+    modelMatrix *= glm::scale(modelMatrix, glm::vec3(scale, scale, scale));
 
     // Set uniform variables
     glUniformMatrix4fv(glGetUniformLocation(program, "projectionMatrix"), 1, GL_FALSE, glm::value_ptr(projectionMatrix));
@@ -60,7 +61,7 @@ void render() {
     modelMatrix = glm::mat4(1.0f);
     modelMatrix *= glm::rotate(modelMatrix, rotationFactor / 2, glm::vec3(0.0f, 1.0f, 0.0f));
     modelMatrix *= glm::rotate(modelMatrix, rotationFactor / 2, glm::vec3(1.0f, 0.0f, 0.0f));
-    modelMatrix *= glm::scale(modelMatrix, glm::vec3(scaleFactor * 2, scaleFactor * 2, scaleFactor * 2));
+    modelMatrix *= glm::scale(modelMatrix, glm::vec3(scale * 2, scale * 2, scale * 2));
 
     // Set uniform variables
     glUniformMatrix4fv(glGetUniformLocation(program, "projectionMatrix"), 1, GL_FALSE, glm::value_ptr(projectionMatrix));
@@ -78,7 +79,7 @@ void render() {
     modelMatrix = glm::mat4(1.0f);
     modelMatrix *= glm::rotate(modelMatrix, rotationFactor , glm::vec3(0.0f, 0.0f, 1.0f));
     modelMatrix *= glm::rotate(modelMatrix, rotationFactor , glm::vec3(1.0f, 0.0f, 0.0f));
-    modelMatrix *= glm::scale(modelMatrix, glm::vec3(scaleFactor / 2, scaleFactor / 2, scaleFactor / 2));
+    modelMatrix *= glm::scale(modelMatrix, glm::vec3(scale / 2, scale / 2, scale / 2));
 
     // Set uniform variables
     glUniformMatrix4fv(glGetUniformLocation(program, "projectionMatrix"), 1, GL_FALSE, glm::value_ptr(projectionMatrix));

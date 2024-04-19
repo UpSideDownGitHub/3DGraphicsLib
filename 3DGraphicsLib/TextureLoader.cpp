@@ -27,12 +27,13 @@ void TextureLoader::loadTextures(){
     //  create texture 
     glGenTextures(1, &textureID);
     glBindTexture(GL_TEXTURE_2D, textureID);
+    glGenerateMipmap(GL_TEXTURE_2D);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, loadedImage.width, loadedImage.height, 0, GL_RGB, GL_UNSIGNED_BYTE, loadedImage.data.data());
-    glGenerateMipmap(GL_TEXTURE_2D);
+    
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 

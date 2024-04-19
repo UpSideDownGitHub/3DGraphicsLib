@@ -26,4 +26,7 @@ public:
 	// Functions
 	void initShape();
 	void render();
+
+	// Constructor
+	Torus(int, int, float, float);
 };
